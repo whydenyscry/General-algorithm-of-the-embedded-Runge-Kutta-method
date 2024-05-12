@@ -31,8 +31,9 @@ is of order $\hat{p}$.
 The difference between them gives an estimate of the local error for a less accurate result and can be used to control the step size:
 
 $$
-\text{ELE}\_{n+1} = \varepsilon\_{n+1} = \norm{\mathbf{\hat{x}}\_{n+1}- \mathbf{x}\_{n+1}}_\infty=\norm{\mathbf{x}_n+\tau_n\mathbf{K}^{(n)}\mathbf{\hat{b}}-\left(\mathbf{x}_n+\tau_n\mathbf{K}^{(n)}\mathbf{b}\right)}_\infty=\norm{\tau_n\mathbf{K}^{(n)}\mathbf{d}}_\infty=\max\_{1\leq j\leq m}\left|x_j\right|.
+\text{ELE}_{n+1} = \varepsilon_{n+1} = \|\hat{\mathbf{x}}_{n+1} - \mathbf{x}_{n+1}\|_\infty = \|\mathbf{x}_n + \tau_n \mathbf{K}^{(n)}\hat{\mathbf{b}} - (\mathbf{x}_n + \tau_n \mathbf{K}^{(n)}\mathbf{b})\|_\infty = \|\tau_n \mathbf{K}^{(n)}\mathbf{d}\|_\infty = \max_{1\leq j\leq m} |x_j|.
 $$
+
 
 The approximation $\mathbf{x}\_{n+1}$ is used to continue the integration.
 
