@@ -31,7 +31,7 @@ is of order $\hat{p}$.
 The difference between them gives an estimate of the local error for a less accurate result and can be used to control the step size:
 
 $$
-\text{ELE}\_{n+1} = \varepsilon\_{n+1} = \left\lVert\mathbf{\hat{x}}\_{n+1}- \mathbf{x}\_{n+1}\right\rVert\_\infty=\left\lVert \mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{\hat{b}}-\left(\mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{b}\right)\right\rVert\_\infty=\left\lVert \mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{\hat{b}}-\left(\mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{b}\right)\right\rVert\_\infty=\max\_{1\leq j\leq m}\left|x\_j\right|.
+\text{ELE}\_{n+1} = \varepsilon\_{n+1} = \left\lVert\mathbf{\hat{x}}\_{n+1}- \mathbf{x}\_{n+1}\right\rVert\_\infty=\left\lVert \mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{\hat{b}}-\left(\mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{b}\right)\right\rVert\_\infty=\left\lVert \tau\_n\mathbf{K}^{(n)}\mathbf{d}\right\rVert\_\infty=\max\_{1\leq j\leq m}\left|x\_j\right|.
 $$
 
 
