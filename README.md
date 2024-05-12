@@ -49,7 +49,10 @@ $$
 		& \mathbf{d}^{\mathbf{T}}
 	\end{array} 	
 	\quad \Rightarrow \quad 
-	\begin{array}{r|ccccc}
+$$
+
+$$
+\begin{array}{r|ccccc}
 		0     &         &         &         & \\
 		c_2   & a_{2,1}  &         &         & \\
 		c_3   & a_{3,1}  & a_{3,2}  &         & \\
