@@ -14,7 +14,7 @@ $$
 where $\mathbf{x}=\left[x_1,\dots,x_m\right]^\mathbf{T},\quad
 	\mathbf{f}\left(t,\mathbf{x}\right)=\left[f_1\left(t,x_1,\dots,x_n\right),\dots,f_m\left(t,x_1,\dots,x_n\right)\right]^\mathbf{T}.$
 	
-The idea behind the Embedded Runge—Kutta methods is to provide two approximations: $\mathbf{x}_{n+1}$ and $\mathbf{\hat{x}}_{n+1}$, such that 
+The idea behind the Embedded Runge—Kutta methods is to provide two approximations: $\mathbf{x}\_{n+1}$ and $\mathbf{\hat{x}}\_{n+1}$, such that 
 
 $$
 \mathbf{x}_{n+1} = \mathbf{x}_n+\tau_n\mathbf{K}^{(n)}\mathbf{b},
