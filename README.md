@@ -31,7 +31,7 @@ is of order $\hat{p}$.
 The difference between them gives an estimate of the local error for a less accurate result and can be used to control the step size:
 
 $$
-\text{ELE}\_{n+1} = \varepsilon\_{n+1} = \left\lVert\mathbf{\hat{x}}\_{n+1}- \mathbf{x}\_{n+1}\right\rVert\_\infty=\left\lVert \mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{\hat{b}}-\left(\mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{b}\right)\right\rVert\_\infty=\left\lVert \tau\_n\mathbf{K}^{(n)}\mathbf{d}\right\rVert\_\infty=\max\_{1\leq j\leq m}\left|x\_j\right|.
+\text{ELE}\_{n+1} = \varepsilon\_{n+1} = \left\lVert\mathbf{\hat{x}}\_{n+1}- \mathbf{x}\_{n+1}\right\rVert\_\infty=\left\lVert \mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{\hat{b}}-\left(\mathbf{x}\_n+\tau\_n\mathbf{K}^{(n)}\mathbf{b}\right)\right\rVert\_\infty=\left\lVert \tau\_n\mathbf{K}^{(n)}\mathbf{d}\right\rVert\_\infty.
 $$
 
 
@@ -40,28 +40,25 @@ The approximation $\mathbf{x}\_{n+1}$ is used to continue the integration.
 **Butcher tableau** for the $s$-stage Embedded Runge—Kutta methods represented as follows:
 
 $$
-\begin{array}{r|c}
-		\mathbf{c} & \mathbf{A} \\
-		\hline
-		& \mathbf{b}^{\mathbf{T}} \\
-		& \mathbf{\hat{b}}^{\mathbf{T}} \\
-		\hline
-		& \mathbf{d}^{\mathbf{T}}
-	\end{array} 
-	\quad \Rightarrow \quad
-	\begin{array}{r|ccccc}
-		0     &         &         &         & \\
-		c_2   & a_{2,1}  &         &         & \\
-		c_3   & a_{3,1}  & a_{3,2}  &         & \\
-		\vdots& \vdots  & \vdots  & \ddots  & \\
-		c_s   & a_{s,1}  & a_{s,2}  & \cdots  & a_{s,s-1} \\
-		\hline
-		& b_1     & b_2     & \cdots  & b_{s-1} & b_s \\
-		& \hat{b}_1     & \hat{b}_2     & \cdots  & \hat{b}_{s-1} & \hat{b}_s  \\
-		\hline
-		& d_1     & d_2     & \cdots  & d_{s-1} & d_s
-	\end{array},
+\begin{array}{rcccc}
+		\mathbf{c} & & & & \mathbf{A} \\
+		        &       &       &       & \mathbf{b}^{\mathbf{T}} \\
+		        &       &       &       & \mathbf{\hat{b}}^{\mathbf{T}} \\
+		        &       &       &       & \mathbf{d}^{\mathbf{T}} \\
+\end{array}
+\quad \Rightarrow \quad
+\begin{array}{rccccc}
+		0     &       &       &       & \\
+		c_2   & a_{2,1}  &       &       & \\
+		c_3   & a_{3,1}  & a_{3,2}  &       & \\
+		\vdots& \vdots  & \vdots  & \ddots& \\
+		c_s   & a_{s,1}  & a_{s,2}  & \cdots& a_{s,s-1} \\
+		        & b_1     & b_2     & \cdots& b_{s-1} & b_s \\
+		        & \hat{b}_1     & \hat{b}_2     & \cdots& \hat{b}_{s-1} & \hat{b}_s  \\
+		        & d_1     & d_2     & \cdots& d_{s-1} & d_s
+\end{array},
 $$
+
 
 $$
 \mathbf{d} = \mathbf{\hat{b}} - \mathbf{b},
