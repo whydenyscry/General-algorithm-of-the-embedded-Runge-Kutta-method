@@ -47,7 +47,20 @@ $$
 		& \mathbf{\hat{b}}^{\mathbf{T}} \\
 		\hline
 		& \mathbf{d}^{\mathbf{T}}
-	\end{array} 
+	\end{array} 	
+	\quad \Rightarrow \quad
+	\begin{array}{r|ccccc}
+		0     &         &         &         & \\
+		c_2   & a_{2,1}  &         &         & \\
+		c_3   & a_{3,1}  & a_{3,2}  &         & \\
+		\vdots& \vdots  & \vdots  & \ddots  & \\
+		c_s   & a_{s,1}  & a_{s,2}  & \cdots  & a_{s,s-1} \\
+		\hline
+		& b_1     & b_2     & \cdots  & b_{s-1} & b_s \\
+		& \hat{b}_1     & \hat{b}_2     & \cdots  & \hat{b}_{s-1} & \hat{b}_s  \\
+		\hline
+		& d_1     & d_2     & \cdots  & d_{s-1} & d_s
+	\end{array},
 $$
 
 $$
