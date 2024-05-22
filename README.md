@@ -174,12 +174,12 @@ $$
 $$
 
 ### Verner's method of order 6(5) (DVERK)
-The Lotka—Volterra Attractor has been obtained using DVERK method, which has no FSAL propety, so it's important to use the _odeEmbeddedGeneral_ function.
+The Lotka—Volterra Attractor has been obtained using DVERK method, which has no FSAL propety, so it's important to use the _odeEmbeddedGeneral_ (_odeEmbeddedGeneral\_optimized_) function.
 
 ![The Lotka—Volterra Attractor](https://github.com/whydenyscry/General-algorithm-of-the-embedded-Runge-Kutta-method/blob/main/images/The_Lotka_Volterra_Attractor.png)
 
 ### Dormand—Prince method of order 5(4) (RK5(4)7M)
-The TSUCS2 Attractor has been obtained using RK5(4)7M method, which has FSAL propety, so it's recommended to use _odeFSALEmbeddedGeneral_, which takes this property into account, but it's also possible to use _odeEmbeddedGeneral_ function, only in this case FSAL won't be taken into account.
+The TSUCS2 Attractor has been obtained using RK5(4)7M method, which has FSAL propety, so it's recommended to use _odeFSALEmbeddedGeneral_ (_odeFSALEmbeddedGeneral\_optimized_), which takes this property into account, but it's also possible to use _odeEmbeddedGeneral_ (_odeEmbeddedGeneral\_optimized_) function, only in this case FSAL won't be taken into account.
 
 ![The TSUCS2 Attractor](https://github.com/whydenyscry/General-algorithm-of-the-embedded-Runge-Kutta-method/blob/main/images/The_TSUCS2_Attractor.png)
 
