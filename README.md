@@ -3,6 +3,20 @@ Below I will describe an algorithm for solving IVP by any Embedded Runge—Kutta
 I haven't implemented adaptive step size here, maybe I'll do it in a while. Here are two scripts — for a method with and without FSAL property.  The FSAL (First Same As Last) property means that if the same function evaluations (or calculations) are required at the start point of a step and at the end point of the next step, the function value calculated at the end point of the current step can be reused as the initial value for the next step without having to recalculate it. 
 The output, compared to my algorithm for explicit methods, only adds an array with the estimates of local errors (ELE).
 
+## Table of Contents
+
+- [Embedded Runge—Kutta methods. Butcher tableau](#embedded-rungekutta-methods-butcher-tableau)
+- [Description of the implemented algorithm](#description-of-the-implemented-algorithm)
+- [Example](#example)
+	- [Verner's method of order 6(5) (DVERK)](#verners-method-of-order-65-dverk)
+	- [Dormand—Prince method of order 5(4) (RK5(4)7M)](#dormandprince-method-of-order-54-rk547m)
+- [Notes](#notes)
+  - [Input Arguments](#input-arguments)
+  - [Output Arguments](#output-arguments)
+  - [About Optimized Scripts](#about-optimized-scripts)
+- [Planned Features](#planned-features)
+- [References](#references)
+
 ## Embedded Runge—Kutta methods. Butcher tableau
 
 Let an initial value problem (IVP) be specified as follows:
@@ -169,7 +183,96 @@ The TSUCS2 Attractor has been obtained using RK5(4)7M method, which has FSAL pro
 
 ![The TSUCS2 Attractor](https://github.com/whydenyscry/General-algorithm-of-the-embedded-Runge-Kutta-method/blob/main/images/The_TSUCS2_Attractor.png)
 
+## Notes
 
+### Input Arguments
+- `c_vector`: vector of coefficients $\mathbf{c}$ of Butcher tableau for the selected method;
+- `A_matrix`: matrix of coefficients $\mathbf{A}$ of Butcher tableau for the selected method;
+- `b_vector`: vector of coefficients $\mathbf{b}$ of Butcher tableau for the selected method;
+- `b_hat_vector`: vector of coefficients $\mathbf{\hat{b}}$ of Butcher tableau for the selected method;
+- `odefun`: functions to solve, specified as a function handle that defines the functions to be integrated;
+- `tspan`: interval of integration, specified as a two-element vector;
+- `tau`: time discretization step;
+- `incond`: vector of initial conditions.
+
+### Output Arguments
+- `t`: vector of evaluation points used to perform the integration;
+- `xsol`: solution matrix in which each row corresponds to a solution at the value returned in the corresponding row of `t`.
+- `ELE`: local errors vector in which each row corresponds to a estimated local error at the value returned in the corresponding row of `t`.
+
+### About Optimized Scripts
+
+The codes from the _odeEmbeddedGeneral.m_ & _odeFSALEmbeddedGeneral.m_ scripts shows a more illustrative integration procedure, for understanding from a theoretical point of view. The optimized versions of these scripts _odeEmbeddedGeneral_optimized.m_ & _odeFSALEmbeddedGeneral_optimized.m_ look as follows:
+```MATLAB
+function [t, xsol, ELE] = odeEmbeddedGeneral_optimized(c_vector, A_matrix, b_vector, b_hat_vector, odefun, tspan, tau, incond)
+
+s_stages = length(c_vector);
+m = length(incond);
+
+c_vector = reshape(c_vector, [s_stages 1]);
+b_vector = reshape(b_vector, [s_stages 1]);
+b_hat_vector = reshape(b_hat_vector, [s_stages 1]);
+d_vector = b_hat_vector - b_vector;
+incond = reshape(incond, [m 1]);
+
+t = (tspan(1) : tau : tspan(2))';
+xsol = zeros(length(incond), length(t));
+xsol(:, 1) = incond(:);
+K_matrix = zeros(m, s_stages);
+ELE = zeros(length(t), 1);
+
+for n = 1:length(t)-1
+    K_matrix(:, 1) = odefun(t(n), xsol(:, n));   
+        for i = 2:s_stages
+            K_matrix(:, i) = odefun(t(n) + tau * c_vector(i), xsol(:, n) + tau * K_matrix(:, 1:i-1) * A_matrix(i, 1:i-1)');
+        end
+    xsol(:, n+1) = xsol(:, n) + tau * K_matrix * b_vector;
+    ELE(n+1) = norm(tau * K_matrix * d_vector, "inf");
+end
+xsol = xsol';
+end
+```
+
+```MATLAB
+function [t, xsol, ELE] = odeFSALEmbeddedGeneral_optimized(c_vector, A_matrix, b_vector, b_hat_vector, odefun, tspan, tau, incond)
+
+s_stages = length(c_vector);
+m = length(incond);
+
+c_vector = reshape(c_vector, [s_stages 1]);
+b_vector = reshape(b_vector, [s_stages 1]);
+b_hat_vector = reshape(b_hat_vector, [s_stages 1]);
+d_vector = b_hat_vector - b_vector;
+incond = reshape(incond, [m 1]);
+
+t = (tspan(1) : tau : tspan(2))';
+xsol = zeros(length(incond), length(t));
+xsol(:, 1) = incond(:);
+K_matrix = zeros(m, s_stages);
+ELE = zeros(length(t), 1);
+K_matrix(:, s_stages) = odefun(t(1), xsol(:, 1));
+
+for n = 1:length(t)-1
+    K_matrix(:, 1) = K_matrix(:, s_stages);
+        for i = 2:s_stages
+            K_matrix(:, i) = odefun(t(n) + tau * c_vector(i), xsol(:, n) + tau * K_matrix(:, 1:i-1) * A_matrix(i, 1:i-1)');
+        end
+    xsol(:, n+1) = xsol(:, n) + tau * K_matrix * b_vector;
+    ELE(n+1) = norm(tau * K_matrix * d_vector, "inf");
+end
+xsol = xsol';
+end
+```
+With only 27 & 28 lines for such a powerful instrument, it looks awesome, doesn't it?
+
+Here no unnecessary variables are created, and the `K_matrix` is initialized as zero matrix only once, because the algorithm allows not to fill it with zeros at each iteration, but just to overwrite the columns at this iteration without using the columns with coeficients from the previous one: 
+```MATLAB
+K_matrix(:, i) = odefun(t(n) + tau * c_vector(i), xsol(:, n) + tau * K_matrix(:, 1:i-1) * A_matrix(i, 1:i-1)')
+```
+
+## Planned Features
+- based on this script, add specific integrators, as I did [here](https://github.com/whydenyscry/Dynamics-of-Nonlinear-Attractors/blob/main/odeCRK4.m) with the Runge-Kutta method of order 4.
+- add adaptive step size.
 
 ## References
 1. Butcher, J. (2016). Numerical methods for ordinary differential equations. https://doi.org/10.1002/9781119121534
