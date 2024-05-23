@@ -278,3 +278,5 @@ K_matrix(:, i) = odefun(t(n) + tau * c_vector(i), xsol(:, n) + tau * K_matrix(:,
 1. Butcher, J. (2016). Numerical methods for ordinary differential equations. https://doi.org/10.1002/9781119121534
 2. Hairer, E., Nørsett, S. P., & Wanner, G. (1993). Solving Ordinary Differential Equations I: Nonstiff Problems (2nd ed.). Springer. https://doi.org/10.1007/978-3-540-78862-1
 3. Dormand, J. R., & Prince, P. J. (1980). A family of embedded Runge-Kutta formulae. Journal of Computational and Applied Mathematics, 6(1), 19–26. https://doi.org/10.1016/0771-050x(80)90013-3
+4. Samardzija, N., & Greller, L. D. (1988). Explosive route to chaos through a fractal torus in a generalized Lotka-Volterra model. Bulletin of Mathematical Biology, 50(5), 465–491. https://doi.org/10.1007/BF02458847
+5. Li, D. (2008). A three-scroll chaotic attractor. Physics Letters A, 372(4), 387–393. https://doi.org/10.1016/j.physleta.2007.07.045
