@@ -271,7 +271,7 @@ K_matrix(:, i) = odefun(t(n) + tau * c_vector(i), xsol(:, n) + tau * K_matrix(:,
 ```
 
 ## Planned Features
-- based on this script, add specific integrators, as I did [here](https://github.com/whydenyscry/Dynamics-of-Nonlinear-Attractors/blob/main/odeCRK4.m) with the Runge-Kutta method of order 4.
+- based on this script, add specific integrators, as I did [here](https://github.com/whydenyscry/Dynamics-of-Nonlinear-Attractors/blob/main/odeCRK4.m](https://github.com/whydenyscry/Dynamics-of-Nonlinear-Attractors/tree/main/scripts/odeExplicitSolvers).
 - add adaptive step size.
 
 ## References
