@@ -50,7 +50,6 @@ Let an initial value problem be specified as follows:
 where $`\mathbf{z}\left(t\right): \mathbb{R}\mapsto\mathbb{R}^m, \mathbf{f}\left(t,\mathbf{z}\right):\mathbb{R}\times\mathbb{R}^m\mapsto\mathbb{R}^m.`$
 
 The method provides two approximations for the next step: the high-order solution $`\mathbf{z}_{n+1}`$ (order $p$) and a lower-order embedded solution $`\hat{\mathbf{z}}_{n+1}`$ (order $`\hat{p}`$, typically $`p-1`$):
-
 ```math
 \begin{gather}
 \mathbf{z}_{n+1} = \mathbf{z}_n+\tau_n\sum\limits_{i=1}^{s}b_i\mathbf{k}_{i}^{(n)},
@@ -59,7 +58,7 @@ The method provides two approximations for the next step: the high-order solutio
 \end{gather}
 ```
 
-The difference between them yields an estimate of the Local Truncation Error (LTE), which is used for adaptive step size control. The error is normalized using a standard mixed absolute-relative criterion
+The difference between them yields an estimate of the Local Truncation Error (LTE), which is used for adaptive step size control. The error is normalized using a standard mixed absolute-relative criterion:
 ```math
 \begin{gather}
 \textbf{LTE}_{n+1} \approx \hat{\mathbf{z}}_{n+1}- \mathbf{z}_{n+1}= \mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\hat{\mathbf{b}}-\left(\mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\mathbf{b}\right)= \tau_n\mathbf{K}^{(n)}\mathbf{d},
@@ -73,7 +72,7 @@ Here, $`\oslash`$ denotes element-wise division. The step size $`\tau_{n+1}`$ is
 ```math
 \tau_{n+1} = S\tau_n\mathrm{err}_{n+1}^{-\alpha}
 ```
-where $S$ is a safety factor and $\alpha \approx 0.7/p$
+where $S$ is a safety factor and $\alpha \approx 0.7/p$.
 
 The approximation $\mathbf{z}_{n+1}$ is used to continue the integration.
 
@@ -83,10 +82,10 @@ The approximation $\mathbf{z}_{n+1}$ is used to continue the integration.
 \begin{array}{r|c}
     \mathbf{c} & \mathbf{A} \\ \hline
     & \mathbf{b}^{\top} \\
-    & \hat{\mathbf{b}}^{\top} \\ 
+    & \hat{\mathbf{b}}^{\top} \\ \hline
+	& \mathbf{d}^{\top}
 \end{array}
 ```
-
 where $`\mathbf{d} = \hat{\mathbf{b}} - \mathbf{b}`$.
 
 ## Description of the implemented algorithm
@@ -112,15 +111,13 @@ The procedure for filling the matrix is identical as in [my algorithm for Explic
 Then the formulas for filling the matrix $\mathbf{K}^{(n)}$ can be represented as follows:
 
 ```math
+\begin{gather}
 \begin{cases}
 		\mathbf{k}_{1}^{(n)} = \mathbf{f}\left(t_n,\mathbf{z}_n\right),\\
 		\vdots\\
 		\mathbf{k}_{i}^{(n)} = \mathbf{f}\left(t_n + c_i \tau, \mathbf{z}_n + \tau\mathbf{K}^{(n)}_{m\times i-1}\mathbf{a}_{i-1\times 1}^{(i)}\right),
 	\end{cases}
-```
-
-```math
-\begin{gather}
+\\
 \mathbf{z}_{n+1} = \mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\mathbf{b},
 \\
 \hat{\mathbf{z}}_{n+1} = \mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\hat{\mathbf{b}}.
@@ -175,7 +172,7 @@ You can customize the solver by passing `Name, Value` arguments after the requir
 ### Output Arguments
 - `t`: vector of evaluation points used to perform the integration;
 - `zsol`: solution matrix in which each row corresponds to a solution at the value returned in the corresponding row of `t`;
-- `dzdt_eval`: matrix of derivatives $`\dot{\mathbf{z}}\left(t\right)`$ evaluated at the times in `t`; each row contains the derivative of the solution corresponding to the matching row of `t`.
+- `dzdt_eval`: matrix of derivatives $`\dot{\mathbf{z}}\left(t\right)`$ evaluated at the times in `t`; each row contains the derivative of the solution corresponding to the matching row of `t`;
 - `stats`: structure containing solver performance statistics.
 
 ```matlab
