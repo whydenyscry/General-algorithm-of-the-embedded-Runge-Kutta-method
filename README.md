@@ -79,14 +79,13 @@ The approximation $\mathbf{z}_{n+1}$ is used to continue the integration.
 
 **Butcher tableau** for the $s$-stage Embedded Runge—Kutta methods represented as follows:
 
-$$
+```math
 \begin{array}{r|c}
     \mathbf{c} & \mathbf{A} \\ \hline
     & \mathbf{b}^{\top} \\
-    & \hat{\mathbf{b}}^{\top} \\ \hline
-    & \mathbf{d}^{\top}
+    & \hat{\mathbf{b}}^{\top} \\ 
 \end{array}
-$$
+```
 
 where $`\mathbf{d} = \hat{\mathbf{b}} - \mathbf{b}`$.
 
