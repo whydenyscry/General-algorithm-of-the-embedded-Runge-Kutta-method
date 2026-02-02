@@ -93,7 +93,7 @@ The procedure for filling the matrix is identical as in [my algorithm for Explic
 
 ```math
 \begin{gather}
-\mathbf{K}^{(n)}_{m\times s}=\left[\mathbf{k}_1^{(n)},\mathbf{k}_2^{(n)},\ldots,\mathbf{k}_s^{(n)}\right]=\mathbf{0}_{m\times s},
+\mathbf{K}^{(1)}_{m\times s}=\left[\mathbf{k}_1^{(1)},\mathbf{k}_2^{(1)},\ldots,\mathbf{k}_s^{(1)}\right]=\mathbf{0}_{m\times s},
 \\
 \mathbf{A}_{s\times s} = 
 	\begin{bmatrix}
