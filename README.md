@@ -69,9 +69,9 @@ The difference between them yields an estimate of the Local Truncation Error (LT
 \mathrm{err}_{n+1} = \|\textbf{LTE}_{n+1}\oslash\mathbf{w}_{n+1}\|_\infty.
 \end{gather}
 ```
-Here, $\oslash$ denotes element-wise division. The step size $\tau_{n+1}$ is adapted based on the scalar error metric $\mathrm{err}_{n+1}$ using an Integral Controller:
+Here, $`\oslash`$ denotes element-wise division. The step size $`\tau_{n+1}`$ is adapted based on the scalar error metric $`\mathrm{err}_{n+1}`$ using an Integral Controller:
 ```math
-\tau_{n+1} = S\tau_n\mathrm{err}_{n+1}^(-\alpha)
+\tau_{n+1} = S\tau_n\mathrm{err}_{n+1}^{-\alpha}
 ```
 where $S$ is a safety factor and $\alpha \approx 0.7/p$
 
@@ -81,40 +81,35 @@ The approximation $\mathbf{z}_{n+1}$ is used to continue the integration.
 
 ```math
 \begin{array}{r|c}
-		\mathbf{c} & \mathbf{A} \\
-		\hline
-		& \mathbf{b}^{\top} \\
-		& \hat{\mathbf{b}}^{\top} \\
-		\hline
-		& \mathbf{d}^{\top}
-	\end{array} 	
-	\quad \Rightarrow \quad 
-	\begin{array}{r|ccccc}
-		0     &         &         &         & \\
-		c_2   & a_{2,1}  &         &         & \\
-		c_3   & a_{3,1}  & a_{3,2}  &         & \\
-		\vdots& \vdots  & \vdots  & \ddots  & \\
-		c_s   & a_{s,1}  & a_{s,2}  & \cdots  & a_{s,s-1} \\
-		\hline
-		& b_1     & b_2     & \cdots  & b_{s-1} & b_s \\
-		& \hat{b}_1     & \hat{b}_2     & \cdots  & \hat{b}_{s-1} & \hat{b}_s  \\
-		\hline
-		& d_1     & d_2     & \cdots  & d_{s-1} & d_s
-	\end{array},
+	\mathbf{c} & \mathbf{A} \\
+	\hline
+	& \mathbf{b}^{\top} \\
+	& \hat{\mathbf{b}}^{\top} \\
+	\hline
+	& \mathbf{d}^{\top}
+\end{array} 	
+\quad \Rightarrow \quad 
+\begin{array}{r|ccccc}
+	0 & & & & & \\
+	c_2 & a_{2,1} & & & & \\
+	c_3 & a_{3,1} & a_{3,2} & & & \\
+	\vdots & \vdots & \vdots & \ddots & & \\
+	c_s & a_{s,1} & a_{s,2} & \cdots & a_{s,s-1} & \\
+	\hline
+	& b_1 & b_2 & \cdots & b_{s-1} & b_s \\
+	& \hat{b}_1 & \hat{b}_2 & \cdots & \hat{b}_{s-1} & \hat{b}_s \\
+	\hline
+	& d_1 & d_2 & \cdots & d_{s-1} & d_s
+\end{array}
 ```
 
-```math
-\mathbf{d} = \hat{\mathbf{b}} - \mathbf{b},
-```
-
-```math
-\mathbf{c},\mathbf{b},\hat{\mathbf{b}}, \mathbf{d}\in \mathbb{R}^s,\quad \mathbf{A} \in \mathbb{R}^{s\times s}.
-```
+where $`\mathbf{d} = \hat{\mathbf{b}} - \mathbf{b}`$.
 
 ## Description of the implemented algorithm
 The procedure for filling the matrix is identical as in [my algorithm for Explicit Runge—Kutta methods](https://github.com/whydenyscry/General-algorithm-of-the-explicit-Runge-Kutta-method).
 
 ```math
+\begin{gather}
 \mathbf{K}^{(n)}_{m\times s}=\left[\mathbf{k}_1^{(n)},\mathbf{k}_2^{(n)},\ldots,\mathbf{k}_s^{(n)}\right]=\mathbf{0}_{m\times s},
 \\
 \mathbf{A}_{s\times s} = 
@@ -127,6 +122,7 @@ The procedure for filling the matrix is identical as in [my algorithm for Explic
 		\\
 		\mathbf{a}^{(s)\top}
 	\end{bmatrix}.
+\end{gather}
 ```
 
 Then the formulas for filling the matrix $\mathbf{K}^{(n)}$ can be represented as follows:
@@ -140,20 +136,25 @@ Then the formulas for filling the matrix $\mathbf{K}^{(n)}$ can be represented a
 ```
 
 ```math
+\begin{gather}
 \mathbf{z}_{n+1} = \mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\mathbf{b},
-\hat{\mathbf{z}}_{n+1} = \mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\hat{\mathbf{b}},
+\\
+\hat{\mathbf{z}}_{n+1} = \mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\hat{\mathbf{b}}.
+\end{gather}
 ```
 
 
 ## Example
 The _ExampleOfUse.mlx_ file shows the obtaining of Arenstorf Orbit using Tsitouras (5)4 method.
 ```math
+\begin{gather}
 \begin{cases}
 x'' = x + 2y' - (1 - \mu)\frac{x + \mu}{((x + \mu)^2 + y^2)^{3/2}} - \mu\frac{x - (1-\mu)}{((x - (1-\mu))^2 + y^2)^{3/2}},\\
 y'' = y - 2x' - (1-\mu)\frac{y}{((x + \mu)^2 + y^2)^{3/2}} - \mu\frac{y}{((x - (1-\mu))^2 + y^2)^{3/2}}
 \end{cases}
 \\
-x(0) = 0.994, \quad y(0) = 0, \quad x'(0) = 0, \quad y'(0) = -2.00158510637908252240537862224,
+x(0) = 0.994, \quad y(0) = 0, \quad x'(0) = 0, \quad y'(0) = -2.00158510637908252240537862224.
+\end{gather}
 ```
 The solution is periodic with period $T \approx 17.0652165601579625588917206249$.
 
