@@ -47,22 +47,27 @@ Let an initial value problem be specified as follows:
 ```math
 \dot{\mathbf{z}}\left(t\right)=\mathbf{f}\left(t,\mathbf{z}\right),\quad t \in \left[t_0,t_\text{end}\right],\quad \mathbf{z}\left(t_0\right) = \mathbf{z}_0, 
 ```
-where $`\mathbf{z}\left(t\right): \mathbb{R}\mapsto\mathbb{R}^m, \mathbf{f}\left(t,\mathbf{z}\right):\mathbb{R}\times\mathbb{R}^m\mapsto\mathbb{R}^m.`
+where $`\mathbf{z}\left(t\right): \mathbb{R}\mapsto\mathbb{R}^m, \mathbf{f}\left(t,\mathbf{z}\right):\mathbb{R}\times\mathbb{R}^m\mapsto\mathbb{R}^m.`$
 
-The method provides two approximations for the next step: the high-order solution $\mathbf{z}_{n+1}$ (order $p$) and a lower-order embedded solution $\hat{\mathbf{z}}_{n+1}$ (order $\hat{p}$, typically $p-1$):
+The method provides two approximations for the next step: the high-order solution $`\mathbf{z}_{n+1}`$ (order $p$) and a lower-order embedded solution $`\hat{\mathbf{z}}_{n+1}`$ (order $`\hat{p}`$, typically $`p-1`$):
+
 ```math
+\begin{gather}
 \mathbf{z}_{n+1} = \mathbf{z}_n+\tau_n\sum\limits_{i=1}^{s}b_i\mathbf{k}_{i}^{(n)},
 \\
-\hat{\mathbf{z}}_{n+1} = \mathbf{z}_n+\tau_n\sum\limits_{i=1}^{s}\hat{b}_i\mathbf{k}_{i}^{(n)},
+\hat{\mathbf{z}}_{n+1} = \mathbf{z}_n+\tau_n\sum\limits_{i=1}^{s}\hat{b}_i\mathbf{k}_{i}^{(n)}.
+\end{gather}
 ```
 
 The difference between them yields an estimate of the Local Truncation Error (LTE), which is used for adaptive step size control. The error is normalized using a standard mixed absolute-relative criterion
 ```math
+\begin{gather}
 \textbf{LTE}_{n+1} \approx \hat{\mathbf{z}}_{n+1}- \mathbf{z}_{n+1}= \mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\hat{\mathbf{b}}-\left(\mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\mathbf{b}\right)= \tau_n\mathbf{K}^{(n)}\mathbf{d},
 \\
 \mathbf{w}_{n+1} = \mathrm{ATol} \cdot \mathbf{1} + \mathrm{RTol}\max\left(\left|\mathbf{z}_{n+1}\right|, \left|\mathbf{z}_{n}\right|\right),
 \\
 \mathrm{err}_{n+1} = \|\textbf{LTE}_{n+1}\oslash\mathbf{w}_{n+1}\|_\infty.
+\end{gather}
 ```
 Here, $\oslash$ denotes element-wise division. The step size $\tau_{n+1}$ is adapted based on the scalar error metric $\mathrm{err}_{n+1}$ using an Integral Controller:
 ```math
