@@ -57,7 +57,7 @@ The method provides two approximations for the next step: the high-order solutio
 ```
 
 The difference between them yields an estimate of the Local Truncation Error (LTE), which is used for adaptive step size control. The error is normalized using a standard mixed absolute-relative criterion
-```
+```math
 \textbf{LTE}_{n+1} \approx \hat{\mathbf{z}}_{n+1}- \mathbf{z}_{n+1}= \mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\hat{\mathbf{b}}-\left(\mathbf{z}_n+\tau_n\mathbf{K}^{(n)}\mathbf{b}\right)= \tau_n\mathbf{K}^{(n)}\mathbf{d},
 \\
 \mathbf{w}_{n+1} = \mathrm{ATol} \cdot \mathbf{1} + \mathrm{RTol}\max\left(\left|\mathbf{z}_{n+1}\right|, \left|\mathbf{z}_{n}\right|\right),
@@ -74,7 +74,7 @@ The approximation $\mathbf{z}_{n+1}$ is used to continue the integration.
 
 **Butcher tableau** for the $s$-stage Embedded Runge—Kutta methods represented as follows:
 
-```
+```math
 \begin{array}{r|c}
 		\mathbf{c} & \mathbf{A} \\
 		\hline
@@ -98,18 +98,18 @@ The approximation $\mathbf{z}_{n+1}$ is used to continue the integration.
 	\end{array},
 ```
 
-```
+```math
 \mathbf{d} = \hat{\mathbf{b}} - \mathbf{b},
 ```
 
-```
+```math
 \mathbf{c},\mathbf{b},\hat{\mathbf{b}}, \mathbf{d}\in \mathbb{R}^s,\quad \mathbf{A} \in \mathbb{R}^{s\times s}.
 ```
 
 ## Description of the implemented algorithm
 The procedure for filling the matrix is identical as in [my algorithm for Explicit Runge—Kutta methods](https://github.com/whydenyscry/General-algorithm-of-the-explicit-Runge-Kutta-method).
 
-```
+```math
 \mathbf{K}^{(n)}_{m\times s}=\left[\mathbf{k}_1^{(n)},\mathbf{k}_2^{(n)},\ldots,\mathbf{k}_s^{(n)}\right]=\mathbf{0}_{m\times s},
 \\
 \mathbf{A}_{s\times s} = 
@@ -126,7 +126,7 @@ The procedure for filling the matrix is identical as in [my algorithm for Explic
 
 Then the formulas for filling the matrix $\mathbf{K}^{(n)}$ can be represented as follows:
 
-```
+```math
 \begin{cases}
 		\mathbf{k}_{1}^{(n)} = \mathbf{f}\left(t_n,\mathbf{z}_n\right),\\
 		\vdots\\
@@ -199,25 +199,16 @@ stats =
 ```
 
 ## Planned Features
-<<<<<<< HEAD
 - Dense Output
 - More Methods
-=======
-- based on this script, add specific integrators, as I did [here](https://github.com/whydenyscry/Dynamics-of-Nonlinear-Attractors/tree/main/scripts/odeExplicitSolvers).
-- add adaptive step size.
->>>>>>> 157a0f7305e2aa3727d86a6cc1fb26701f8898ec
 
 ## References
 1. Butcher, J. (2016). Numerical methods for ordinary differential equations. https://doi.org/10.1002/9781119121534
 2. Hairer, E., Nørsett, S. P., & Wanner, G. (1993). Solving Ordinary Differential Equations I: Nonstiff Problems (2nd ed.). Springer. https://doi.org/10.1007/978-3-540-78862-1
 3. Dormand, J. R., & Prince, P. J. (1980). A family of embedded Runge-Kutta formulae. Journal of Computational and Applied Mathematics, 6(1), 19–26. https://doi.org/10.1016/0771-050x(80)90013-3
-<<<<<<< HEAD
 4. Tsitouras, C. (2011). Runge–Kutta pairs of order 5(4) satisfying only the first column simplifying assumption. Computers & Mathematics With Applications, 62(2), 770–775. https://doi.org/10.1016/j.camwa.2011.06.002
 5. Verner, J. H. (1978). Explicit Runge–Kutta Methods with Estimates of the Local Truncation Error. SIAM Journal on Numerical Analysis, 15(4), 772–790. https://doi.org/10.1137/0715051
 6. Verner, J. H. (1993). Differentiable interpolants for High-Order Runge–Kutta Methods. SIAM Journal on Numerical Analysis, 30(5), 1446–1466. https://doi.org/10.1137/0730075
 7. Verner, J. H. (2009). Numerically optimal Runge–Kutta pairs with interpolants. Numerical Algorithms, 53(2–3), 383–396. https://doi.org/10.1007/s11075-009-9290-3
 8. Verner, J. H. (n.d.). Jim Verner’s Refuge for Runge–Kutta Pairs. Simon Fraser University. https://www.sfu.ca/~jverner/
-=======
-4. Samardzija, N., & Greller, L. D. (1988). Explosive route to chaos through a fractal torus in a generalized Lotka-Volterra model. Bulletin of Mathematical Biology, 50(5), 465–491. https://doi.org/10.1007/BF02458847
-5. Li, D. (2008). A three-scroll chaotic attractor. Physics Letters A, 372(4), 387–393. https://doi.org/10.1016/j.physleta.2007.07.045
->>>>>>> 157a0f7305e2aa3727d86a6cc1fb26701f8898ec
+
