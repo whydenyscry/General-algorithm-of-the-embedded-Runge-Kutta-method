@@ -36,7 +36,7 @@ The solver includes a comprehensive suite of methods, primarily based on the wor
 - [Description of the implemented algorithm](#description-of-the-implemented-algorithm)
 - [Example](#example)
 - [Notes](#notes)
-  - [Syntax][#syntax]
+  - [Syntax](#syntax)
   - [Input Arguments](#input-arguments)
   - [Output Arguments](#output-arguments)
 - [Planned Features](#planned-features)
@@ -79,29 +79,25 @@ The approximation $\mathbf{z}_{n+1}$ is used to continue the integration.
 
 **Butcher tableau** for the $s$-stage Embedded Runge—Kutta methods represented as follows:
 
-```math
+$$
 \begin{array}{r|c}
-	\mathbf{c} & \mathbf{A} \\
-	\hline
-	& \mathbf{b}^{\top} \\
-	& \hat{\mathbf{b}}^{\top} \\
-	\hline
-	& \mathbf{d}^{\top}
-\end{array} 	
-\quad \Rightarrow \quad 
-\begin{array}{r|ccccc}
-	0 & & & & & \\
-	c_2 & a_{2,1} & & & & \\
-	c_3 & a_{3,1} & a_{3,2} & & & \\
-	\vdots & \vdots & \vdots & \ddots & & \\
-	c_s & a_{s,1} & a_{s,2} & \cdots & a_{s,s-1} & \\
-	\hline
-	& b_1 & b_2 & \cdots & b_{s-1} & b_s \\
-	& \hat{b}_1 & \hat{b}_2 & \cdots & \hat{b}_{s-1} & \hat{b}_s \\
-	\hline
-	& d_1 & d_2 & \cdots & d_{s-1} & d_s
+\mathbf{c} & \mathbf{A} \\ \hline
+& \mathbf{b}^{\top} \\
+& \hat{\mathbf{b}}^{\top} \\ \hline
+& \mathbf{d}^{\top}
 \end{array}
-```
+\quad \Rightarrow \quad
+\begin{array}{r|ccccc}
+0 & & & & & \\
+c_2 & a_{2,1} & & & & \\
+c_3 & a_{3,1} & a_{3,2} & & & \\
+\vdots & \vdots & \vdots & \ddots & & \\
+c_s & a_{s,1} & a_{s,2} & \cdots & a_{s,s-1} & \\ \hline
+& b_1 & b_2 & \cdots & b_{s-1} & b_s \\
+& \hat{b}_1 & \hat{b}_2 & \cdots & \hat{b}_{s-1} & \hat{b}_s \\ \hline
+& d_1 & d_2 & \cdots & d_{s-1} & d_s
+\end{array}
+$$
 
 where $`\mathbf{d} = \hat{\mathbf{b}} - \mathbf{b}`$.
 
