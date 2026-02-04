@@ -26,6 +26,8 @@ The solver includes a comprehensive suite of methods, primarily based on the wor
 ### Order 9 (Verner IIa Series)
 * `"IIa+9(8)16"`: **Robust** variant.
 * `"IIa-9(8)16"`: **Efficient** variant.
+* `"IIa-9(8)16M"`: **A slightly more efficient** variant.
+
 
 ### Naming Convention Legend
 * **`*` (FSAL):** First Same As Last. The last stage of the current step is reused as the first stage of the next step, saving 1 function evaluation per step.
