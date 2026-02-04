@@ -16,11 +16,12 @@ The solver includes a comprehensive suite of methods, primarily based on the wor
 ### Order 7 (Verner IIa1 Series)
 * `"IIa1+7(6)10"`: **Robust** variant.
 * `"IIa1-7(6)10"`: **Efficient** variant.
-* `"IIa1-7(6)10M"`: **An even more efficient** variant
+* `"IIa1-7(6)10M"`: **An even more efficient** variant.
 
 ### Order 8 (Verner IIa Series)
 * `"IIa+8(7)13"`: **Robust** variant. 
 * `"IIa-8(7)13"`: **Efficient** variant. 
+* `"IIa-8(7)13M"`: **A considerably more efficient** variant. 
 
 ### Order 9 (Verner IIa Series)
 * `"IIa+9(8)16"`: **Robust** variant.
