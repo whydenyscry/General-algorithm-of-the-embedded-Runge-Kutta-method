@@ -1,9 +1,14 @@
 # General algorithm of the Embedded Runge—Kutta method
 A high-precision, adaptive step-size numerical integrator for Ordinary Differential Equations (ODEs) in MATLAB. 
-This solver implements various embedded Runge-Kutta pairs, ranging from order 5 to 9.
+This solver implements various embedded Runge-Kutta pairs, ranging from order 4 to 9.
 
 ## Implemented Methods
 The solver includes a comprehensive suite of methods, primarily based on the work of [**Jim Verner**](https://www.sfu.ca/~jverner/), optimized for different tolerance levels and problem stiffness.
+
+### Order 4
+* `"Merson4(3)5"`: Merson 4("5"). A classical method with an error estimate that is asymptotically exact for linear constant-coefficient systems (Order 5), but reduces to Order 3 for general nonlinear problems.
+* `"Zonneveld4(3)5"`: Zonneveld 4(3). A robust extension of the classic RK4 that adds a single stage for error estimation. Conservative and reliable.
+* `"Fehlberg4(5)6"`: Fehlberg 4(5). The original RKF45. A non-FSAL method that constructs a 5th-order error estimate to control a 4th-order solution.
 
 ### Order 5
 * `"Tsit5(4)7*"`: Tsitouras 5(4) pair. A modern improvement over Dormand-Prince, featuring minimized truncation error coefficients for higher efficiency.

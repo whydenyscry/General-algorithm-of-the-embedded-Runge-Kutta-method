@@ -17,6 +17,11 @@ function [t, zsol, dzdt_eval, stats] = odeEmbeddedSolvers(odefun, tspan, incond,
 %
 %     'Method'       - Integration method. Specifies the explicit Runge-Kutta pair.
 %                      Options:
+%                        Order 4:
+%                          "Merson4(3)5"    - Classis RKM4"5" method.
+%                          "Zonneveld4(3)5" - Robust 4(3) pair based on Classic RK4.
+%                          "Fehlberg4(5)6"  - Classic RKF45.'
+% 
 %                        Order 5:
 %                          "Tsit5(4)7*" - Tsitouras 5(4). Modern improvement over
 %                                         Dormand-Prince (higher efficiency).
@@ -51,6 +56,7 @@ function [t, zsol, dzdt_eval, stats] = odeEmbeddedSolvers(odefun, tspan, incond,
 %     'MaxStepSize'  - Maximum allowed step size. Default: 1.0.
 % 
 % References
+% Hairer, E., Nørsett, S. P., & Wanner, G. (1993). Solving Ordinary Differential Equations I: Nonstiff Problems (2nd ed.). Springer. https://doi.org/10.1007/978-3-540-78862-1
 % Dormand, J. R., & Prince, P. J. (1980). A family of embedded Runge-Kutta formulae. Journal of Computational and Applied Mathematics, 6(1), 19–26. https://doi.org/10.1016/0771-050x(80)90013-3
 % Tsitouras, C. (2011). Runge–Kutta pairs of order 5(4) satisfying only the first column simplifying assumption. Computers & Mathematics With Applications, 62(2), 770–775. https://doi.org/10.1016/j.camwa.2011.06.002
 % Verner, J. H. (1978). Explicit Runge–Kutta Methods with Estimates of the Local Truncation Error. SIAM Journal on Numerical Analysis, 15(4), 772–790. https://doi.org/10.1137/0715051
@@ -62,7 +68,7 @@ arguments
     odefun function_handle
     tspan (1,2) double
     incond 
-    options.Method (1,1) string {mustBeMember(options.Method, ["Tsit5(4)7*" "RK5(4)7*M" "IIIXb-6(5)9*" "IIIXb+6(5)9*" "IIa1-7(6)10" "IIa1-7(6)10M" "IIa1+7(6)10" "IIa-8(7)13" "IIa-8(7)13M" "IIa+8(7)13" "IIa-9(8)16" "IIa-9(8)16M" "IIa+9(8)16"])} = "IIIXb+6(5)9*"
+    options.Method (1,1) string {mustBeMember(options.Method, ["Merson4(3)5" "Zonneveld4(3)5" "Fehlberg4(5)6" "Tsit5(4)7*" "RK5(4)7*M" "IIIXb-6(5)9*" "IIIXb+6(5)9*" "IIa1-7(6)10" "IIa1-7(6)10M" "IIa1+7(6)10" "IIa-8(7)13" "IIa-8(7)13M" "IIa+8(7)13" "IIa-9(8)16" "IIa-9(8)16M" "IIa+9(8)16"])} = "IIIXb+6(5)9*"
     options.ATol (1,1) double = 1e-10
     options.RTol (1,1) double = 1e-10
     options.MinStepSize (1,1) double = 1e-16
@@ -73,6 +79,129 @@ arguments
 end
 
 switch options.Method
+    case "Merson4(3)5"
+        c(1) = 0;
+        c(2) = 1/3;
+        c(3) = 1/3;
+        c(4) = 1/2;
+        c(5) = 1;
+
+        A = zeros(5,5);
+
+        A(2,1) = 1/3;
+
+        A(3,1) = 1/6;
+        A(3,2) = 1/6;
+
+        A(4,1) = 1/8;
+        A(4,2) = 0;
+        A(4,3) = 3/8;
+
+        A(5,1) = 1/2;
+        A(5,2) = 0;
+        A(5,3) = -3/2;
+        A(5,4) = 2;
+
+        b(1) = 1/6;
+        b(2) = 0;
+        b(3) = 0;
+        b(4) = 2/3;
+        b(5) = 1/6;
+
+        b_hat(1) = 1/10;
+        b_hat(2) = 0;
+        b_hat(3) = 3/10;
+        b_hat(4) = 2/5;
+        b_hat(5) = 1/5;
+
+        p_order = 4;
+        isFSAL = false;
+
+    case "Zonneveld4(3)5"
+        c(1) = 0;
+        c(2) = 1/2;
+        c(3) = 1/2;
+        c(4) = 1;
+        c(5) = 3/4;
+
+        A = zeros(5,5);
+        
+        A(2,1) = 1/2;
+        
+        A(3,1) = 0;
+        A(3,2) = 1/2;
+        
+        A(4,1) = 0;
+        A(4,2) = 0;
+        A(4,3) = 1;
+        
+        A(5,1) = 5/32;
+        A(5,2) = 7/32;
+        A(5,3) = 13/32;
+        A(5,4) = -1/32;
+        
+        b(1) = 1/6;
+        b(2) = 1/3;
+        b(3) = 1/3;
+        b(4) = 1/6;
+        b(5) = 0;
+        
+        b_hat(1) = -1/2;
+        b_hat(2) = 7/3;
+        b_hat(3) = 7/3;
+        b_hat(4) = 13/6;
+        b_hat(5) = -16/3;
+        
+        p_order = 4;
+        isFSAL = false;
+
+    case "Fehlberg4(5)6"        
+        c(1) = 0;
+        c(2) = 1/4;
+        c(3) = 3/8;
+        c(4) = 12/13;
+        c(5) = 1;
+        c(6) = 1/2;
+
+        A = zeros(6,6);
+
+        A(2,1) = 1/4;
+
+        A(3,1) = 3/32;
+        A(3,2) = 9/32;
+
+        A(4,1) = 1932/2197;
+        A(4,2) = -7200/2197;
+        A(4,3) = 7296/2197;
+
+        A(5,1) = 439/216;
+        A(5,2) = -8;
+        A(5,3) = 3680/513;
+        A(5,4) = -845/4104;
+
+        A(6,1) = -8/27;
+        A(6,2) = 2;
+        A(6,3) = -3544/2565;
+        A(6,4) = 1859/4104;
+        A(6,5) = -11/40;
+
+        b(1) = 25/216;
+        b(2) = 0;
+        b(3) = 1408/2565;
+        b(4) = 2197/4104;
+        b(5) = -1/5;
+        b(6) = 0;
+
+        b_hat(1) = 16/135;
+        b_hat(2) = 0;
+        b_hat(3) = 6656/12825;
+        b_hat(4) = 28561/56430;
+        b_hat(5) = -9/50;
+        b_hat(6) = 2/55;
+
+        p_order = 4;
+        isFSAL = false;
+
     case "Tsit5(4)7*"
         c(1) = 0;
         c(2) = 0.161;
